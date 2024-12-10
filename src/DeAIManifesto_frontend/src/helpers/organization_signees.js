@@ -56,6 +56,13 @@ export const organizationSignees = [
     url: "https://formyfi.io/",
     signDate: "2024-12-04",
     signedBy: "Azizbek Khalilov",
+  },
+  {
+    name: "Yuku",
+    logo: "./yuku-logo-organization-signee.png",
+    url: "https://yuku.app/",
+    signDate: "2024-12-10",
+    signedBy: "Jayz",
   }
 ];
   

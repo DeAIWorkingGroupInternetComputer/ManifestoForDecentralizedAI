@@ -56,6 +56,13 @@ export const organizationSignees = [
     url: "https://formyfi.io/",
     signDate: "2024-12-04",
     signedBy: "Azizbek Khalilov",
-  }
+  },
+  {
+    name: "DecideAI",
+    logo: "./DecideAI-logo-organization-signee.png",
+    url: "https://decideai.xyz/",
+    signDate: "2024-12-09",
+    signedBy: "Jesse Glass",
+  },
 ];
   

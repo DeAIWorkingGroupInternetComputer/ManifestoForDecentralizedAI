@@ -46,6 +46,16 @@ actor {
     if (submittedSignUpForm.name.size() > 40 or submittedSignUpForm.emailAddress.size() > 40) {
       return "Wrong input. Please correct it.";
     };
+    // Define unwanted characters
+    let unwantedChars = "!@#$%^&*()_+=[]{}|\\:;\"<>,?/";
+
+    // Check for invalid characters in the name
+    for (char in Text.toIter(unwantedChars)) {
+      let text = Text.fromChar(char);
+      if (Text.contains(submittedSignUpForm.name, #text text)) {
+        return "Name contains invalid characters. Please correct it.";
+      };
+    };
     switch(getManifestoSignee(submittedSignUpForm.emailAddress)) {
       case null {
         // New signee

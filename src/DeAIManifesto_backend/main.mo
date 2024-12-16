@@ -43,6 +43,9 @@ actor {
   };
 
   public func submit_signup_form(submittedSignUpForm : SignUpFormInput) : async Text {
+    if (submittedSignUpForm.name.size() > 40 or submittedSignUpForm.emailAddress.size() > 30) {
+      return "Wrong input. Please correct it.";
+    };
     switch(getManifestoSignee(submittedSignUpForm.emailAddress)) {
       case null {
         // New signee
@@ -66,8 +69,17 @@ actor {
   // Function to get all individual signee names
   public query func get_manifesto_signee_names() : async [Text] {
     // Filter out all info besides signee name
-    let signeeNames : [Text] = Array.map(Iter.toArray(signeesStorage.vals()), func (signee : ManifestoSignee) : Text {
-      return signee.name;
+    var signeeNames : [Text] = Array.map(Iter.toArray(signeesStorage.vals()), func (signee : ManifestoSignee) : Text {
+      if (signee.name.size() <= 40) {
+        return signee.name;
+      };
+      return "";  
+    });
+    signeeNames := Array.filter(signeeNames, func (signeeName : Text) : Bool {
+      if (signeeName == "") {
+        return false;
+      };
+      return true;  
     });
     return signeeNames;
   };

@@ -107,17 +107,49 @@ const AIManifestoPage: React.FC<{
     if (!newSupporter.name || !newSupporter.emailAddress) {
       setMessage("Please provide both your name and email address.");
       return;
-    }
-
-    // Prepare input for backend
-    const submittedSignUpForm = {
-      name: newSupporter.name,
-      emailAddress: newSupporter.emailAddress,
-      title: [newSupporter.title] as unknown as [string],
-      organization: [newSupporter.organization] as unknown as [string],
     };
+    const sanitizeInput = (input, fieldName) => {
+      // Define allowed regex for valid characters (Latin letters, spaces, hyphens, apostrophes)
+      const validRegex = /^[\p{L}\s\-']+$/u;
+    
+      // Check for empty or overly long fields
+      if (fieldName === "Name" || fieldName === "Email") {
+        if (input.length === 0) {
+          throw new Error(`${fieldName} cannot be empty.`);
+        };
+      };
+      
+      if (input.length > 40) {
+        throw new Error(`${fieldName} cannot exceed 40 characters.`);
+      };
+    
+      // Validate characters for name, title, and organization
+      if (!validRegex.test(input)) {
+        throw new Error(`${fieldName} contains invalid characters.`);
+      };
+    
+      return input.trim(); // Trim whitespace
+    };    
 
     try {
+      // Sanitize inputs
+      const sanitizedName = sanitizeInput(newSupporter.name, "Name");
+      const sanitizedTitle = newSupporter.title ? sanitizeInput(newSupporter.title, "Title") : "";
+      const sanitizedOrganization = newSupporter.organization ? sanitizeInput(newSupporter.organization, "Organization") : "";
+
+      // Basic email validation
+      if (!newSupporter.emailAddress.includes("@") || newSupporter.emailAddress.length > 40 || newSupporter.emailAddress.length < 4) {
+        throw new Error("Please provide a valid email address.");
+      };
+
+      // Prepare input for backend
+      const submittedSignUpForm = {
+        name: sanitizedName,
+        emailAddress: newSupporter.emailAddress.trim(),
+        title: [sanitizedTitle] as unknown as [string],
+        organization: [sanitizedOrganization] as unknown as [string],
+      };
+    
       // Submit to backend
       const resultMessage = await DeAIManifesto_backend.submit_signup_form(submittedSignUpForm);
       setMessage(resultMessage);

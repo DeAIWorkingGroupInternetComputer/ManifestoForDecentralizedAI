@@ -43,7 +43,7 @@ actor {
   };
 
   public func submit_signup_form(submittedSignUpForm : SignUpFormInput) : async Text {
-    if (submittedSignUpForm.name.size() > 40 or submittedSignUpForm.emailAddress.size() > 30) {
+    if (submittedSignUpForm.name.size() > 40 or submittedSignUpForm.emailAddress.size() > 40) {
       return "Wrong input. Please correct it.";
     };
     switch(getManifestoSignee(submittedSignUpForm.emailAddress)) {

@@ -71,5 +71,12 @@ export const organizationSignees = [
     signDate: "2024-12-10",
     signedBy: "Jayz",
   },
+  {
+    name: "Bridge23",
+    logo: "./bridge23-logo-organization-signee.png",
+    url: "https://www.bridge23.app/",
+    signDate: "2024-12-18",
+    signedBy: "Wira Pratama",
+  },
 ];
   

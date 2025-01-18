@@ -125,6 +125,19 @@ actor {
     return [];
   };
 
+  // Function for custodian to get individual signees to be confirmed
+  public shared query ({ caller }) func get_temporary_manifesto_signees() : async [(Text, ManifestoSignee)] {
+    // don't allow anonymous Principal
+    if (Principal.isAnonymous(caller)) {
+      return [];
+		};
+    // Only Principals registered as custodians can access this function
+    if (Principal.isController(caller)) {
+      return Iter.toArray(signeesToConfirmStorage.entries());
+    };
+    return [];
+  };
+
   // Function for custodian to get the number of individual signees
   public shared query ({ caller }) func get_number_of_manifesto_signees() : async Int {
     // don't allow anonymous Principal
